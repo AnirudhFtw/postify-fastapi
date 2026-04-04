@@ -1,12 +1,11 @@
-from typing import Optional
-from pydantic import BaseModel, EmailStr
+from typing import Optional, Annotated
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
-from typing import Annotated
-from pydantic import Field
 
 class UserCreate(BaseModel):
-    email : EmailStr
-    password : str
+    email: EmailStr
+    password: str
+
 
 class UserOut(BaseModel):
     id: int
@@ -16,10 +15,10 @@ class UserOut(BaseModel):
     class Config:
         orm_mode = True
 
-class UserLogin(BaseModel):
-    email : EmailStr
-    password : str
 
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
 
 
 class PostBase(BaseModel):
@@ -31,13 +30,16 @@ class PostBase(BaseModel):
 class Postcreate(PostBase):
     pass
 
+
 class Post(PostBase):
-    id:int
+    id: int
     created_at: datetime
-    owner_id:int
-    owner:UserOut
+    owner_id: int
+    owner: UserOut
+
     class Config:
         orm_mode = True
+
 
 class PostOut(BaseModel):
     Post: Post
@@ -46,29 +48,16 @@ class PostOut(BaseModel):
     class Config:
         orm_mode = True
 
-class UserCreate(BaseModel):
-    email : EmailStr
-    password : str
-
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    created_at: datetime
-
-    class Config:
-        orm_mode = True
-
-class UserLogin(BaseModel):
-    email : EmailStr
-    password : str
 
 class Token(BaseModel):
-    access_token : str
-    token_type : str
+    access_token: str
+    token_type: str
+
 
 class TokenData(BaseModel):
-    id : Optional[str] = None
+    id: Optional[str] = None
+
 
 class Vote(BaseModel):
-    post_id : int
+    post_id: int
     dir: Annotated[int, Field(ge=0, le=1)]
